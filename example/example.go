@@ -6,6 +6,9 @@ import (
 	vw "github.com/travisbrady/govw"
 )
 
+// Lots of goofing around
+// Initially intended to match the Python test.py
+// From https://github.com/JohnLangford/vowpal_wabbit/blob/master/python/test.py
 func main() {
 	h := vw.Initialize("-q st --noconstant --quiet")
 	//example := ReadExample(vw, "1 |s p^the_man w^the w^man |t p^un_homme w^un w^homme")
