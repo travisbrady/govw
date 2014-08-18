@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	vw "github.com/travisbrady/go-vw"
+	vw "github.com/travisbrady/govw"
 )
 
 func main() {
