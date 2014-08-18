@@ -28,6 +28,7 @@ func main() {
 	fmt.Printf("GetSimpleLabelPrediction: %v\n", vw.GetSimpleLabelPrediction(ex2))
 	fmt.Printf("GetSimpleLabelLabel: %v\n", vw.GetSimpleLabelLabel(ex2))
 	fmt.Printf("GetUpdatedPrediction: %v\n", vw.GetUpdatedPrediction(ex2))
+	fmt.Printf("GetSumLoss: %v\n", vw.GetSumLoss(h))
 	vw.Finish(h)
 	fmt.Printf("Score = %v Pred: %v Importance: %v FeatHash: %v\n", score, pred, imp, featHash)
 }

@@ -1,4 +1,3 @@
-//package main
 package vw
 
 //#cgo CFLAGS: -I . -I/usr/local/include -lstdc++
@@ -84,4 +83,8 @@ func Finish(handle C.VW_HANDLE) {
 
 func GetTopicPrediction(example C.VW_EXAMPLE, i int) float64 {
 	return float64(C.VW_GetTopicPrediction(example, C.size_t(i)))
+}
+
+func GetSumLoss(handle C.VW_HANDLE) float64 {
+	return float64(C.VW_GetSumLoss(handle))
 }

@@ -109,14 +109,19 @@ extern "C" {
         return ex->partial_prediction; 
     }
 
-    float VW_GetUpdatedPrediction(VW_EXAMPLE e) { 
+    float VW_GetUpdatedPrediction(VW_EXAMPLE e) {
 		example * ex = static_cast<example*>(e);
-        return ex->updated_prediction; 
+        return ex->updated_prediction;
     }
 
     float VW_GetTopicPrediction(VW_EXAMPLE e, size_t i)
 	{
 		return VW::get_topic_prediction(static_cast<example*>(e), i);
 	}
+
+    double VW_GetSumLoss(VW_HANDLE handle) {
+		vw * pointer = static_cast<vw*>(handle);
+        return pointer->sd->sum_loss;
+    }
 
 }
