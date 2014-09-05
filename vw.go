@@ -1,12 +1,11 @@
 package vw
 
-//#cgo CFLAGS: -I . -I/usr/local/include -lstdc++
+//#cgo CFLAGS: -I . -I/usr/local/include -lstdc++ -O2
 //#cgo LDFLAGS: -L. -I . -I/usr/local/include -lvw -lstdc++
 //#include "stubs.h"
 import "C"
 import "unsafe"
 
-//func Initialize(args string) unsafe.Pointer {
 func Initialize(args string) C.VW_HANDLE {
 	cs := C.CString(args)
 	defer C.free(unsafe.Pointer(cs))
@@ -17,6 +16,14 @@ func ReadExample(handle C.VW_HANDLE, example string) C.VW_EXAMPLE {
 	cs := C.CString(example)
 	defer C.free(unsafe.Pointer(cs))
 	return C.VW_ReadExampleA(handle, cs)
+}
+
+func EmptyExample(handle C.VW_HANDLE) C.VW_EXAMPLE {
+	return C.VW_EmptyExample(handle)
+}
+
+func ExamplePushFeature(example C.VW_EXAMPLE, ns int, fid int, v float64) {
+	C.VW_ExamplePushFeature(example, C.uchar(ns), C.uint32_t(fid), C.float(v))
 }
 
 func FinishExample(handle C.VW_HANDLE, example C.VW_EXAMPLE) {

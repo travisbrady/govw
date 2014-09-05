@@ -7,11 +7,11 @@ extern "C" {
     typedef void * VW_HANDLE;
     typedef void * VW_EXAMPLE;
 
-    int hi(void);
-
     VW_HANDLE VW_InitializeA(const char * pstrArgs);
 
-    VW_EXAMPLE VW_ReadExampleA(VW_HANDLE , const char * line);
+    VW_EXAMPLE VW_ReadExampleA(VW_HANDLE handle, const char * line);
+    VW_EXAMPLE VW_EmptyExample(VW_HANDLE handle);
+    void VW_ExamplePushFeature(VW_EXAMPLE e, unsigned char ns, uint32_t fid, float v);
     void VW_FinishExample(VW_HANDLE handle, VW_EXAMPLE e);
 
     //float VW_Learn(VW_HANDLE, void* e);
