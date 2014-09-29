@@ -80,17 +80,21 @@ func GetLoss(example C.VW_EXAMPLE) float64 {
 	return float64(C.VW_GetLoss(example))
 }
 
+/*
 func GetUpdatedPrediction(example C.VW_EXAMPLE) float64 {
 	return float64(C.VW_GetUpdatedPrediction(example))
 }
+*/
 
 func Finish(handle C.VW_HANDLE) {
 	C.VW_Finish(handle)
 }
 
+/*
 func GetTopicPrediction(example C.VW_EXAMPLE, i int) float64 {
 	return float64(C.VW_GetTopicPrediction(example, C.size_t(i)))
 }
+*/
 
 func GetSumLoss(handle C.VW_HANDLE) float64 {
 	return float64(C.VW_GetSumLoss(handle))

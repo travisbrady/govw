@@ -31,9 +31,9 @@ extern "C" {
 
     size_t VW_GetNumFeatures(VW_EXAMPLE e);
     float VW_GetLoss(VW_EXAMPLE e);
-    float VW_GetUpdatedPrediction(VW_EXAMPLE e);
+    //float VW_GetUpdatedPrediction(VW_EXAMPLE e);
     float VW_GetPartialPrediction(VW_EXAMPLE e);
-    float VW_GetTopicPrediction(VW_EXAMPLE e, size_t i);
+    //float VW_GetTopicPrediction(VW_EXAMPLE e, size_t i);
     double VW_GetSumLoss(VW_HANDLE vw);
 
     void VW_Finish(VW_HANDLE handle);
