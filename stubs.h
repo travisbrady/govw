@@ -3,6 +3,7 @@ extern "C" {
 #endif
 
     #include <stdlib.h>
+    #include <stdint.h>
 
     typedef void * VW_HANDLE;
     typedef void * VW_EXAMPLE;
