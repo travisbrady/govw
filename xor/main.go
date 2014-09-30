@@ -44,5 +44,5 @@ func main() {
 	fmt.Printf("[SHOULD] = 0: %v\n", vw.LearnString(h, "-1 1 | 1:0 2:0 3:0"))
 	fmt.Printf("[SHOULD] = 1: %v\n", vw.LearnString(h, "-1 1 | 1:0 2:1 3:0"))
 	fmt.Printf("[SHOULD] = 1: %v\n", vw.LearnString(h, "-1 1 | 1:0 2:0 3:1"))
-	vw.Finish(h)
+	h.Finish()
 }

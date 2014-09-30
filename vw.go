@@ -6,88 +6,98 @@ package vw
 import "C"
 import "unsafe"
 
-func Initialize(args string) C.VW_HANDLE {
+type Handle struct {
+	c_handle C.VW_HANDLE
+}
+
+type Example struct {
+	c_example C.VW_EXAMPLE
+}
+
+func Initialize(args string) *Handle {
 	cs := C.CString(args)
 	defer C.free(unsafe.Pointer(cs))
-	return C.VW_InitializeA(cs)
+	c_h := C.VW_InitializeA(cs)
+	h := Handle{c_h}
+	return &h
 }
 
-func ReadExample(handle C.VW_HANDLE, example string) C.VW_EXAMPLE {
+func ReadExample(handle *Handle, example string) *Example {
 	cs := C.CString(example)
 	defer C.free(unsafe.Pointer(cs))
-	return C.VW_ReadExampleA(handle, cs)
+	c_ex := C.VW_ReadExampleA(handle.c_handle, cs)
+	ex := Example{c_ex}
+	return &ex
 }
 
-func EmptyExample(handle C.VW_HANDLE) C.VW_EXAMPLE {
-	return C.VW_EmptyExample(handle)
+func EmptyExample(handle *Handle) *Example {
+	c_ex := C.VW_EmptyExample(handle.c_handle)
+	ex := Example{c_ex}
+	return &ex
 }
 
-func ExamplePushFeature(example C.VW_EXAMPLE, ns int, fid int, v float64) {
-	C.VW_ExamplePushFeature(example, C.uchar(ns), C.uint32_t(fid), C.float(v))
+func (example *Example) ExamplePushFeature(ns int, fid int, v float64) {
+	C.VW_ExamplePushFeature(example.c_example, C.uchar(ns), C.uint32_t(fid), C.float(v))
 }
 
-func FinishExample(handle C.VW_HANDLE, example C.VW_EXAMPLE) {
-	C.VW_FinishExample(handle, example)
+func (example *Example) FinishExample(handle *Handle) {
+	C.VW_FinishExample(handle.c_handle, example.c_example)
 }
 
-func Learn(handle C.VW_HANDLE, example C.VW_EXAMPLE) float64 {
-	return float64(C.VW_Learn(handle, example))
+func Learn(handle *Handle, example *Example) float64 {
+	return float64(C.VW_Learn(handle.c_handle, example.c_example))
 }
 
-func LearnString(handle C.VW_HANDLE, exStr string) float64 {
+func (handle *Handle) LearnString(exStr string) float64 {
 	ex := ReadExample(handle, exStr)
-	C.VW_Learn(handle, ex)
-	pp := float64(C.VW_GetPartialPrediction(ex))
-	FinishExample(handle, ex)
+	C.VW_Learn(handle.c_handle, ex.c_example)
+	pp := float64(C.VW_GetPartialPrediction(ex.c_example))
+	ex.FinishExample(handle)
 	return pp
 }
 
-func GetPrediction(example C.VW_EXAMPLE) float64 {
-	return float64(C.VW_GetPrediction(example))
+func (example *Example) GetPrediction() float64 {
+	return float64(C.VW_GetPrediction(example.c_example))
 }
 
-func GetPartialPrediction(example C.VW_EXAMPLE) float64 {
-	return float64(C.VW_GetPartialPrediction(example))
+func (example *Example) GetPartialPrediction() float64 {
+	return float64(C.VW_GetPartialPrediction(example.c_example))
 }
 
-func GetSimpleLabelPrediction(example C.VW_EXAMPLE) float64 {
-	return float64(C.VW_GetSimpleLabelPrediction(example))
+func (example *Example) GetSimpleLabelPrediction() float64 {
+	return float64(C.VW_GetSimpleLabelPrediction(example.c_example))
 }
 
-func GetSimpleLabelLabel(example C.VW_EXAMPLE) float64 {
-	return float64(C.VW_GetSimpleLabel(example))
+func (example *Example) GetSimpleLabelLabel() float64 {
+	return float64(C.VW_GetSimpleLabel(example.c_example))
 }
 
-func GetPredictionString(handle C.VW_HANDLE, exStr string) float64 {
-	return GetPrediction(ReadExample(handle, exStr))
+func (handle *Handle) GetPredictionString(exStr string) float64 {
+	ex := ReadExample(handle, exStr)
+	//return GetPrediction(ReadExample(handle, exStr))
+	return ex.GetPrediction()
 }
 
-func GetImportance(example C.VW_EXAMPLE) float64 {
-	return float64(C.VW_GetImportance(example))
+func (example *Example) GetImportance() float64 {
+	return float64(C.VW_GetImportance(example.c_example))
 }
 
-func HashFeature(handle C.VW_HANDLE, s string, u int64) int {
+func (handle *Handle) HashFeature(s string, u int64) int {
 	cs := C.CString(s)
 	defer C.free(unsafe.Pointer(cs))
-	return int(C.VW_HashFeatureA(handle, cs, C.ulong(u)))
+	return int(C.VW_HashFeatureA(handle.c_handle, cs, C.ulong(u)))
 }
 
-func GetNumFeatures(example C.VW_EXAMPLE) int {
-	return int(C.VW_GetNumFeatures(example))
+func (example *Example) GetNumFeatures() int {
+	return int(C.VW_GetNumFeatures(example.c_example))
 }
 
-func GetLoss(example C.VW_EXAMPLE) float64 {
-	return float64(C.VW_GetLoss(example))
+func (example *Example) GetLoss() float64 {
+	return float64(C.VW_GetLoss(example.c_example))
 }
 
-/*
-func GetUpdatedPrediction(example C.VW_EXAMPLE) float64 {
-	return float64(C.VW_GetUpdatedPrediction(example))
-}
-*/
-
-func Finish(handle C.VW_HANDLE) {
-	C.VW_Finish(handle)
+func (handle *Handle) Finish() {
+	C.VW_Finish(handle.c_handle)
 }
 
 /*
@@ -96,6 +106,6 @@ func GetTopicPrediction(example C.VW_EXAMPLE, i int) float64 {
 }
 */
 
-func GetSumLoss(handle C.VW_HANDLE) float64 {
-	return float64(C.VW_GetSumLoss(handle))
+func (handle *Handle) GetSumLoss() float64 {
+	return float64(C.VW_GetSumLoss(handle.c_handle))
 }
